@@ -1,0 +1,65 @@
+//Kode Program Soal 1
+//Buatlah program perkalian sederhana.
+Program Perkalian_Sederhana;
+uses crt;
+Var
+        a,b,kali:real;
+Begin
+clrscr;
+        writeln('Nama  : Azzah Marsa Amalia');
+        writeln('NIM   : 2310432014');
+        writeln('Shift : 1');
+        writeln();
+        writeln('PROGRAM PERKALIAN DUA BILANGAN SEDERHANA');
+        write('BILANGAN1 = ');
+        readln(a);
+        write('BILANGAN2 = ');
+        readln(b);
+        kali:=a*b;
+        writeln(a:3:2,' x ',b:3:2,' = ',kali:3:2);
+        readln;
+end.
+
+//Kode Program Soal 2
+//Buatlah program menghitung volume bola yang jari-jarinya diinput dari keyboard.
+Program Volume_Bola;
+uses crt;
+Var
+        r,volume:real;
+Begin
+clrscr;
+        writeln('Nama  : Azzah Marsa Amalia');
+        writeln('NIM   : 2310432014');
+        writeln('Shift : 1');
+        writeln();
+        writeln('PROGRAM MENGHITUNG VOLUME BOLA');
+        write('Jari-jari bola = ');
+        readln(r);
+        volume:=4/3*22/7*r*r*r;
+        writeln('Volume bola ber-jari-jari ',r:3:2,' satuan adalah ',volume:3:2,' satuan kubik.');
+        readln;
+end.
+
+//Kode Program Soal 3
+//Buatlah program luas permukaan balok, semua elemen yang dibutuhkan diinput dari keyboard.
+Program Luas_Permukaan_Balok;
+uses crt;
+Var
+        p,l,t,luas:real;
+Begin
+clrscr;
+        writeln('Nama  : Azzah Marsa Amalia');
+        writeln('NIM   : 2310432014');
+        writeln('Shift : 1');
+        writeln();
+        writeln('PROGRAM MENGHITUNG LUAS PERMUKAAN BALOK');
+        write('Panjang Balok  = ');
+        readln(p);
+        write('Lebar Balok    = ');
+        readln(l);
+        write('Tinggi Balok   = ');
+        readln(t);
+        luas:=2*p*l+2*p*t+2*l*t;
+        writeln('Luas Permukaan Balok = ',luas:3:2,' satuan kuadrat');
+        readln;
+end.
