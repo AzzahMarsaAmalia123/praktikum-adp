@@ -1,0 +1,149 @@
+//Tugas Modul 2
+
+Program Menu_Makanan;
+uses crt;
+Var
+kode,pesan,jumlah,total,harga:Integer;
+nama:String;
+Begin
+clrscr;
+writeln('Nama  : Azzah Marsa Amalia');
+writeln('NIM   : 2310432014');
+writeln('Shift : 1');
+writeln();
+writeln('========♥DAFTAR MENU BUKA PUASA KNJ CAFE♥========');
+writeln('Silahkan Pilih Jenis Pesanan!');
+writeln('-------------------------------------------------');
+writeln('Kode    |   Jenis Pesanan');
+writeln('-------------------------------------------------');
+writeln('1       |      Makanan ');
+writeln('2       |      Minuman ');
+writeln('3       | Promo Makanan & Minuman ');
+writeln('=================================================');
+
+//pemilihan jenis pesanan
+write('Kode Jenis Pesanan = '); readln(kode);
+if kode=1 then
+   begin
+   writeln('               MENU MAKANAN');
+   writeln('1. Mie Goreng       = Rp. 10.000 ');
+   writeln('2. Mie Rebus        = Rp. 10.000 ');
+   writeln('3. Ayam Geprek      = Rp. 15.000 ');
+   writeln('4. Ayam Bakar Madu  = Rp. 18.000 ');
+   writeln('5. Sate Madura      = Rp. 20.000 ');
+   writeln('=================================================');
+   //pemilihan menu
+   write('Nomor Menu     = '); readln(pesan);
+      if pesan=1 then
+      begin
+        nama:='Mie Goreng'; harga:=10000;
+        end
+      else if pesan=2 then
+      begin
+        nama:='Mie Rebus'; harga:=10000;
+        end
+      else if pesan=3 then
+      begin
+        nama:='Ayam Geprek'; harga:=15000;
+        end
+      else if pesan=4 then
+      begin
+        nama:='Ayam Bakar Madu'; harga:=18000;
+        end
+      else if pesan=5 then
+      begin
+        nama:='Sate Madura'; harga:=20000;
+        end
+      else begin writeln('Nomor Menu Tidak Valid');
+      end;
+   end
+
+else if kode=2 then
+   begin
+   writeln('               MENU MINUMAN');
+   writeln('1. Teh Panas/Dingin   = Rp. 5.000 ');
+   writeln('2. Kopi Panas/Dingin  = Rp. 5.000 ');
+   writeln('3. Jus Alpukat        = Rp. 10.000 ');
+   writeln('4. Milo Panas/Dingin  = Rp. 10.000 ');
+   writeln('5. Milkshake          = Rp. 15.000 ');
+   writeln('=================================================');
+   //pemilihan menu
+   write('Nomor Menu     = '); readln(pesan);
+      if pesan=1 then
+      begin
+        nama:='Teh Panas/Dingin'; harga:=5000;
+        end
+      else if pesan=2 then
+      begin
+        nama:='Kopi Panas/Dingin'; harga:=5000;
+        end
+      else if pesan=3 then
+      begin
+        nama:='Jus Alpukat'; harga:=10000;
+        end
+      else if pesan=4 then
+      begin
+        nama:='Milo Panas/Dingin'; harga:=10000;
+        end
+      else if pesan=5 then
+      begin
+        nama:='Milkshake'; harga:=15000;
+        end
+      else begin writeln('Nomor Menu Tidak Valid');
+      end;
+   end
+
+else if kode=3 then
+   begin
+   writeln('         MENU PROMO MAKANAN & MINUMAN');
+   writeln('1. Mie Goreng + Teh          = Rp. 13.000 ');
+   writeln('2. Mie Rebus + Kopi          = Rp. 13.000 ');
+   writeln('3. Ayam Geprek + Jus Alpukat = Rp. 22.000 ');
+   writeln('4. Ayam Bakar Madu + Milo    = Rp. 25.000 ');
+   writeln('5. Sate Madura + Milkshake   = Rp. 32.000 ');
+   writeln('=================================================');
+   //pemilihan menu
+   write('Nomor Menu     = '); readln(pesan);
+      if pesan=1 then
+      begin
+        nama:='Mie Goreng + Teh Panas/Dingin'; harga:=13000;
+        end
+      else if pesan=2 then
+      begin
+        nama:='Mie Rebus + Kopi Panas/Dingin'; harga:=13000;
+        end
+      else if pesan=3 then
+      begin
+        nama:='Ayam Geprek + Jus Alpukat'; harga:=22000;
+        end
+      else if pesan=4 then
+      begin
+        nama:='Ayam Bakar Madu + Milo Panas/Dingin'; harga:=25000;
+        end
+      else if pesan=5 then
+      begin
+        nama:='Sate Madura + Milkshake'; harga:=32000;
+        end
+      else begin writeln('Nomor Menu Tidak Valid');
+      end;
+   end
+
+else
+   begin
+   writeln('Kode Pesanan Tidak Valid');
+   end;
+
+//pesanan
+if (pesan<=5)and(pesan>0) then
+    begin
+       writeln('Nama menu      = ',nama);
+       writeln('Harga menu     = Rp. ',harga);
+       write('Jumlah Pesanan = '); readln(jumlah);
+       total:=harga*jumlah;
+       write('Total Harga    = Rp. ',total); writeln();
+    end
+else begin writeln(); end;
+writeln();
+writeln('== TERIMA KASIH SUDAH MENGUNJUNGI KNJ CAFE ^-^ ==');
+readln;
+end.
