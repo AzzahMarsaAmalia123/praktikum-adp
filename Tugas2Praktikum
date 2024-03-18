@@ -3,7 +3,7 @@
 Program Menu_Makanan;
 uses crt;
 Var
-kode,pesan,jumlah,total,harga:Integer;
+kode,pesan,jumlah,total,harga:LongInt;
 nama:String;
 Begin
 clrscr;
