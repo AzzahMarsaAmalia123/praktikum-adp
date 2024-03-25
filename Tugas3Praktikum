@@ -1,0 +1,87 @@
+//Tugas Modul 3
+Program Perkalian_Penjumlahan;
+uses crt;
+Var
+n,kode,i,j:integer;
+Begin
+clrscr;
+writeln('Nama  : Azzah Marsa Amalia');
+writeln('NIM   : 2310432014');
+writeln('Shift : 1');
+
+//Menu
+repeat //perulangan ke menu
+   writeln;
+   writeln('===================== MENU ======================');
+   repeat //perulangan input n
+    write('Input n = '); readln(n); writeln;
+    if (n>0) and (n<=10) then
+    begin
+     writeln('Silahkan Pilih Jenis Operasi Bilangan!');
+     writeln('-------------------------------------------------');
+     writeln('   Kode  |   Jenis Operasi Bilangan');
+     writeln('------------------------------------------------');
+     writeln('    1    | Tabel Perkalian n x n ');
+     writeln('    2    | Tabel Penjumlahan n x n ');
+     writeln('    3    | Keluar ');
+     writeln('=================================================');
+
+   //pemilihan jenis operasi
+   repeat //perulangan input kode
+      write('Kode Jenis Operasi = '); readln(kode); writeln;
+        if kode=1 then
+        begin
+         writeln('TABEL PERKALIAN ',n,' x ',n);
+         writeln('---------------------------------------------------------------------------------------');
+         write('|  x  |');
+         for i:=1 to n do
+           write(i:4,'   |'); writeln();
+           writeln('---------------------------------------------------------------------------------------');
+         for i:=1 to n do
+           begin
+           write('|',i:3,'  |');
+         for j:=1 to n do
+         begin
+           write(i*j:4,'   |');
+           end; writeln;
+         writeln('---------------------------------------------------------------------------------------');
+           end
+        end
+
+        else if kode=2 then
+        begin
+         writeln('TABEL PENJUMLAHAN ',n,' x ',n);
+         writeln('---------------------------------------------------------------------------------------');
+         write('|  +  |');
+         for i:=1 to n do
+           write(i:4,'   |'); writeln();
+           writeln('---------------------------------------------------------------------------------------');
+         for i:=1 to n do
+           begin
+           write('|',i:3,'  |');
+         for j:=1 to n do
+           begin
+           write(i+j:4,'   |');
+           end; writeln;
+         writeln('---------------------------------------------------------------------------------------');
+           end
+        end
+
+        else if kode=3 then
+        begin
+         writeln('Terima kasih telah menggunakan program ini!');
+        end
+
+        else begin writeln('Silakan input ulang kode!');
+        end;
+   until (kode>=1) and (kode<=3); //perulangan input kode
+    end
+
+    else begin //selain 0<n<11
+     writeln('Silakan input ulang n!');
+    end;
+    until (n>0) and (n<=10); //perulangan input n
+
+until (kode=3); //perulangan ke menu
+readln;
+end.
