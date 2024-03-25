@@ -14,7 +14,7 @@ repeat //perulangan ke menu
    writeln;
    writeln('===================== MENU ======================');
    repeat //perulangan input n
-    write('Input n = '); readln(n); writeln;
+    write('Input n (1<=n<=10) = '); readln(n); writeln;
     if (n>0) and (n<=10) then
     begin
      writeln('Silahkan Pilih Jenis Operasi Bilangan!');
