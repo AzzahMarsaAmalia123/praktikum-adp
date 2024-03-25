@@ -17,7 +17,7 @@ repeat //perulangan ke menu
     write('Input n (1<=n<=10) = '); readln(n); writeln;
     if (n>0) and (n<=10) then
     begin
-     writeln('Silahkan Pilih Jenis Operasi Bilangan!');
+     writeln('     Silakan Pilih Jenis Operasi Bilangan!');
      writeln('-------------------------------------------------');
      writeln('   Kode  |   Jenis Operasi Bilangan');
      writeln('------------------------------------------------');
