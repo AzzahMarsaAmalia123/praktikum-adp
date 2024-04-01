@@ -1,0 +1,36 @@
+#Soal nomor 1 Bilangan Sempurna (Python)
+print("Nama  : Azzah Marsa Amalia")
+print("NIM   : 2310432014")
+print("Shift : 1")
+print()
+n = int(input("Masukkan bilangan = "))
+jumlah = 0
+for i in range(1,n):
+    if (n % i == 0):
+        jumlah += i
+if (jumlah == n):
+    print("{} adalah bilangan sempurna!".format(n))
+else:
+    print("{} bukan bilangan sempurna!".format(n)) 
+if n % 2 == 0:
+    print("{} adalah bilangan genap!".format(n))
+else:
+    print("{} adalah bilangan ganjil!".format(n))
+print()
+
+#Soal nomor 2 Segitiga Angka (Python)
+print("Nama  : Azzah Marsa Amalia")
+print("NIM   : 2310432014")
+print("Shift : 1")
+print()
+print("Program Segitiga Angka")
+n = int(input("Input tinggi segitiga = "))
+print()
+if (n>0):
+    for i in range(1,n+1):
+        for j in range(1,i+1):
+            print(j, end=" ")
+        print()
+else:
+    print("Terjadi kesalahan pada nilai penginputan!")
+print()
