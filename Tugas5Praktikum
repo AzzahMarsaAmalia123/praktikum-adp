@@ -1,0 +1,18 @@
+print("Nama  : Azzah Marsa Amalia")
+print("NIM   : 2310432014")
+print("Shift : 1")
+print()
+print("=====PROGRAM ENKRIPSI KALIMAT=====")
+abjad = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+Kalimat = input("Input kalimat sembarang = ").lower()
+k = int(input("Input nilai k (0<k<27) = "))
+cipher = "" #menampilkan cipher enkripsi sesuai kaidah caesar cipher 
+if k in range(1,27):
+    for huruf in Kalimat:
+        if huruf in abjad:
+            cipher = cipher + abjad[(abjad.index(huruf) + k) % len(abjad)]
+        else:
+            cipher = cipher + huruf
+    print("Hasil enkripsi = ", cipher)
+else:
+    print("Mohon input k dalam rentang 0<k<27 !")
