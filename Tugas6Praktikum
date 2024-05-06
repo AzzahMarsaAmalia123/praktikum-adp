@@ -1,0 +1,44 @@
+print("Nama  : Azzah Marsa Amalia")
+print("NIM   : 2310432014")
+print("Shift : 1")
+print()
+print("××××××××××Maskapai High Class××××××××××")
+print("Rute domestik Mei 2024 yang tersedia : ")
+print()
+jadwal = [['JAKARTA', 'JAKARTA', 'BATAM', 'BATAM', 'JAKARTA', 'JAKARTA', 'PADANG', 'PADANG', 'JAKARTA', 'JAKARTA', 'JAMBI', 'JAMBI'],
+          ['BATAM', 'BATAM', 'JAKARTA', 'JAKARTA', 'PADANG', 'PADANG', 'JAKARTA', 'JAKARTA', 'JAMBI', 'JAMBI', 'JAKARTA', 'JAKARTA'],
+          ['06.20', '16.50', '09.00', '11.45', '09.10', '14.00', '11.50', '14.00', '08.55', '15.20', '11.15', '17.40'],
+          ['08.15', '18.40', '10.40', '13.25', '11.05', '15.55', '13.45', '16.00', '10.30', '16.50', '12.35', '19.00']
+          ]
+
+print("—"*80)
+print("| {:<15} | {:<15} | {:<20} | {:<15} |".format("Kota Asal", "Kota Tujuan", "Waktu Keberangkatan", "Waktu Kedatangan"))
+print("—"*80)
+for i in range (len(jadwal[0])):
+   print("| {:<15} | {:<15} | {:<20} | {:<15} |".format(jadwal[0][i], jadwal[1][i], jadwal[2][i], jadwal[3][i]))
+print("—"*80)
+
+print("Menginginkan rute yang lebih singkat? Silakan isi kota asal dan tujuan Anda!")
+asal = input("Masukkan Kota Asal   = ").upper()
+tujuan = input("Masukkan Kota Tujuan = ").upper()   
+
+# Cek apakah kota asal dan kota tujuan ada dalam jadwal
+if asal in jadwal[0] and tujuan in jadwal[1]:
+    kota_pilihan = []
+    for i in range(len(jadwal[0])):
+        if asal == jadwal[0][i] and tujuan == jadwal[1][i]:
+            rute = []
+            for j in range(4):
+                rute.append(jadwal[j][i])
+            kota_pilihan.append(rute)
+    
+    waktu = []
+    for i in range(len(kota_pilihan)):
+        waktu.append(float(kota_pilihan[i][3]) - float(kota_pilihan[i][2]))
+
+    waktu_tercepat = min(waktu)
+    indeks = waktu.index(waktu_tercepat)
+
+    print("Jadi rute tercepat dari", asal, "ke", tujuan, "adalah", kota_pilihan[indeks][2], "-", kota_pilihan[indeks][3], "WIB.")
+else:
+    print("Kota tidak terdapat dalam rute manapun!")
