@@ -10,12 +10,7 @@ def tambah_kegiatan():
     waktu_mulai = input("Waktu mulai, ex: 18.30   : ")
     waktu_selesai = input("Waktu selesai, ex: 19.30 : ")
     deskripsi = input("Deskripsi singkat        : ")
-    kegiatan_baru = {"Kegiatan": kegiatan, 
-                     "Mulai": waktu_mulai, 
-                     "Selesai": waktu_selesai, 
-                     "Deskripsi": deskripsi
-                     }
-    list_kegiatan.append(kegiatan_baru)
+    list_kegiatan.append({"Kegiatan": kegiatan, "Mulai": waktu_mulai, "Selesai": waktu_selesai, "Deskripsi": deskripsi})
     print("Kegiatan berhasil ditambahkan!")
 
 def daftar_kegiatan():
