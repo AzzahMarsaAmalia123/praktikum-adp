@@ -1,0 +1,65 @@
+print("Nama  = Azzah Marsa Amalia")
+print("NIM   = 2310432014")
+print("Shift = 1")
+print()
+
+list_kegiatan = []
+
+def tambah_kegiatan():
+    kegiatan = input("Kegiatan baru            : ")
+    waktu_mulai = input("Waktu mulai, ex: 18.30   : ")
+    waktu_selesai = input("Waktu selesai, ex: 19.30 : ")
+    deskripsi = input("Deskripsi singkat        : ")
+    kegiatan_baru = {"Kegiatan": kegiatan, 
+                     "Mulai": waktu_mulai, 
+                     "Selesai": waktu_selesai, 
+                     "Deskripsi": deskripsi
+                     }
+    list_kegiatan.append(kegiatan_baru)
+    print("Kegiatan berhasil ditambahkan!")
+
+def daftar_kegiatan():
+    if len(list_kegiatan) == 0:
+        print("Tidak ada kegiatan!")
+    else:
+        print("| {:<3} | {:<20} | {:<10} | {:<10} | {:<60} |".format("No", "Kegiatan", "Mulai", "Selesai", "Deskripsi"))
+        print("-"*120)
+        for i, kegiatan in enumerate(list_kegiatan, start=1):
+            print("| {:<3} | {:<20} | {:<6} WIB | {:<6} WIB | {:<60} |".format(i, kegiatan["Kegiatan"], kegiatan["Mulai"], kegiatan["Selesai"], kegiatan["Deskripsi"]))
+
+def hapus_kegiatan():
+    if len(list_kegiatan) == 0:
+        print("Tidak ada kegiatan yang bisa dihapus!") 
+    else:
+        daftar_kegiatan()
+
+        pilih = int(input("Masukkan Nomor kegiatan yang ingin dihapus = "))
+        if (pilih > 0) and (pilih <= len(list_kegiatan)):
+            del list_kegiatan[pilih - 1]
+            print("Kegiatan berhasil dihapus!")
+        else:
+            print("Nomor kegiatan tidak valid!")
+
+def to_do_list():
+    while True:
+        print()
+        print(" Program Jadwal Kegiatan ")
+        print("1. Tambah Kegiatan")
+        print("2. Hapus Kegiatan")
+        print("3. Tampilkan Daftar Kegiatan")
+        print("4. Selesai")
+
+        menu = int(input("Masukkan nomor menu : "))    
+        if menu == 1:
+            tambah_kegiatan()
+        elif menu == 2:
+            hapus_kegiatan()
+        elif menu == 3:
+            daftar_kegiatan()
+        elif menu == 4:
+            print("Terima kasih telah menggunakan program ini!")   
+            break
+        else:
+            print("Nomor menu tidak valid!")             
+
+to_do_list()
