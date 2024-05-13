@@ -10,7 +10,7 @@ def tambah_kegiatan():
     waktu_mulai = input("Waktu mulai, ex: 18.30   : ")
     waktu_selesai = input("Waktu selesai, ex: 19.30 : ")
     deskripsi = input("Deskripsi singkat        : ")
-    list_kegiatan.append({"Kegiatan": kegiatan, "Mulai": waktu_mulai, "Selesai": waktu_selesai, "Deskripsi": deskripsi})
+    list_kegiatan.append((kegiatan, waktu_mulai, waktu_selesai, deskripsi))
     print("Kegiatan berhasil ditambahkan!")
 
 def daftar_kegiatan():
@@ -21,7 +21,7 @@ def daftar_kegiatan():
         print("| {:<3} | {:<20} | {:<10} | {:<10} | {:<60} |".format("No", "Kegiatan", "Mulai", "Selesai", "Deskripsi"))
         print("-"*120)
         for i, kegiatan in enumerate(list_kegiatan, start=1):
-            print("| {:<3} | {:<20} | {:<6} WIB | {:<6} WIB | {:<60} |".format(i, kegiatan["Kegiatan"], kegiatan["Mulai"], kegiatan["Selesai"], kegiatan["Deskripsi"]))
+            print("| {:<3} | {:<20} | {:<6} WIB | {:<6} WIB | {:<60} |".format(i, kegiatan[0], kegiatan[1], kegiatan[2], kegiatan[3]))
         print("-"*120)
 
 def hapus_kegiatan():
