@@ -1,0 +1,69 @@
+print("Nama  : Azzah Marsa Amalia")
+print("NIM   : 2310432014")
+print("Shift : 1")
+print()
+def simpan_pasien(data):
+    with open("datapasien.txt", "a") as file:
+        file.write(f"{data['nama']:<20} | {data['umur']:<5} | {data['jenis_kelamin']:<13} | {data['golongan_darah']:<12} | {data['riwayat_penyakit']:<20} | {data['daftar_obat']:<20} |\n")
+    
+def tambah_pasien(data):
+    nama = input("Masukkan Nama: ")
+    umur = input("Masukkan Umur: ")
+    jenis_kelamin = input("Masukkan Jenis Kelamin: ")
+    golongan_darah = input("Masukkan Golongan Darah: ")
+    riwayat_penyakit = input("Masukkan Riwayat Penyakit: ")
+    daftar_obat = input("Masukkan Daftar Obat: ")
+    data[nama] = {
+                'nama': nama,
+                'umur': umur,
+                'jenis_kelamin': jenis_kelamin,
+                'golongan_darah': golongan_darah,
+                'riwayat_penyakit': riwayat_penyakit,
+                'daftar_obat': daftar_obat
+            }
+    simpan_pasien(data[nama])
+    print("Data berhasil ditambahkan!")
+
+def hapus_pasien(nama_hapus):
+    with open("datapasien.txt", "r") as file:
+        lines = file.readlines()
+    with open("datapasien.txt", "w") as file:
+        for line in lines:
+            if line.split("|")[0].strip() != nama_hapus:
+                file.write(line) 
+        print("Data telah berhasil dihapus!")
+
+
+def tampil_data(data):
+    with open("datapasien.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            print(line.strip())
+
+def main():
+    data = {}
+    while True:
+        print("\nProgram Jadwal Kegiatan")
+        print("1. Tambah Data Pasien")
+        print("2. Hapus Data Pasien")
+        print("3. Tampilkan Daftar Pasien")
+        print("4. Keluar dari program")
+
+        menu = input("Masukkan nomor menu : ")
+        if menu == '1':
+            tambah_pasien(data)
+        elif menu == '2':
+            nama_hapus = input("Masukkan data pasien yang ingin dihapus: ")
+            hapus_pasien(nama_hapus)
+        elif menu == '3':
+            print("Data Pasien Rumah Sakit Anggrek")
+            print("{:<20} | {:<5} | {:<13} | {:<12} | {:<20} | {:<20} |".format("Nama","Umur","Kelamin","Gol. Darah","Riwayat Penyakit","Daftar Obat"))
+            print("-"*110)
+            tampil_data(data)
+        elif menu == '4':
+            print("Terima kasih telah menggunakan program ini!")
+            break
+        else:
+            print("Nomor menu tidak valid!")             
+
+main()
