@@ -1,0 +1,20 @@
+#Gambar bendera merah putih dengan menggunakan python, buat sekreatif mungkin!!
+import os
+os.system('cls')
+from termcolor import colored, cprint
+
+print("Nama  : Azzah Marsa Amalia")
+print("NIM   : 2310432014")
+print("Shift : 1")
+print()
+
+for i in range (5):
+    cprint(' '*3,'dark_grey','on_dark_grey', end='')
+    cprint(' '*30,'red','on_red')
+
+for i in range (5):
+    cprint(' '*3,'dark_grey','on_dark_grey', end='')
+    cprint(' '*30,'white','on_white')
+
+for i in range (15):
+    cprint(' '*3,'dark_grey','on_dark_grey')
