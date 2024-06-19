@@ -1,0 +1,371 @@
+import os
+import datetime
+import emoji
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from termcolor import colored, cprint
+
+pengeluaran = []  
+pemasukan = []  
+kategori_pengeluaran = {}  
+kategori_pemasukan = {}  
+
+def load_data():
+    global pengeluaran, pemasukan, kategori_pengeluaran, kategori_pemasukan
+
+    if os.path.exists("pengeluaran.txt"):
+        with open("pengeluaran.txt", "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                if line.strip():  
+                    try:
+                        tanggal_str, jumlah, kategori, keterangan = [element.strip() for element in line.strip().split('|') ]
+                        tanggal = datetime.datetime.strptime(tanggal_str, '%Y-%m-%d').date()
+                        row = [tanggal, float(jumlah), kategori, keterangan]
+                        pengeluaran.append(row)
+                        if kategori in kategori_pengeluaran:
+                            kategori_pengeluaran[kategori] += float(jumlah)
+                        else:
+                            kategori_pengeluaran[kategori] = float(jumlah)
+
+                    except ValueError:
+                        print(f"Error: Invalid format for line: {line.strip()}. Skipping this line.")
+                        continue  
+
+    if os.path.exists("pemasukan.txt"):
+        with open("pemasukan.txt", "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                if line.strip():  
+                    try:
+                        tanggal_str, jumlah, kategori, keterangan = [element.strip() for element in line.strip().split('|') ]
+                        tanggal = datetime.datetime.strptime(tanggal_str, '%Y-%m-%d').date()
+                        row = [tanggal, float(jumlah), keterangan]
+                        pemasukan.append(row)
+                        if keterangan in kategori_pemasukan:
+                            kategori_pemasukan[keterangan] += float(jumlah)
+                        else:
+                            kategori_pemasukan[keterangan] = float(jumlah)
+                    except ValueError:
+                        print(f"Error: Invalid format for line: {line.strip()}. Skipping this line.")
+                        continue  
+
+def save_data():
+    with open("pengeluaran.txt", "w") as file:
+        for row in pengeluaran:
+            tanggal_str = row[0].strftime('%Y-%m-%d')
+            file.write(f"{tanggal_str:^12}|{row[1]:^18}|{row[2]:^15}|{row[3]:^50}\n")
+
+    with open("pemasukan.txt", "w") as file:
+        for row in pemasukan:
+            tanggal_str = row[0].strftime('%Y-%m-%d')
+            file.write(f"{tanggal_str:^12}|{row[1]:^18}|{row[2]:^50}\n")
+
+def tambah_pengeluaran():
+    tahun = int(input("Masukkan tahun (YYYY): "))
+    bulan = int(input("Masukkan bulan (MM): "))
+    tanggal = int(input("Masukkan tanggal (DD): "))
+    while True:
+        print("\nPilih kategori pengeluaran:")
+        print(emoji.emojize("1. Makanan :bento_box:"))
+        print(emoji.emojize("2. Transportasi :train:"))
+        print(emoji.emojize("3. Medis :hospital:"))
+        print(emoji.emojize("4. Pendidikan :open_book: :school:"))
+        print(emoji.emojize("5. Rekreasi :ferris_wheel:"))
+        print(emoji.emojize("6. Lainnya :memo:"))
+        print("7. Keluar")
+        
+        kategori = input("Pilih kategori (1-7): ")
+        
+        if kategori == '1':
+            kategori_pengeluaran_str = "Makanan"
+        elif kategori == '2':
+            kategori_pengeluaran_str = "Transportasi"
+        elif kategori == '3':
+            kategori_pengeluaran_str = "Medis"
+        elif kategori == '4':
+            kategori_pengeluaran_str = "Pendidikan"
+        elif kategori == '5':
+            kategori_pengeluaran_str = "Rekreasi"
+        elif kategori == '6':
+            kategori_pengeluaran_str = "Lainnya"
+        elif kategori == '7':
+            break
+        else:
+            print("Kategori tidak valid. Tambah pengeluaran dibatalkan.\n")
+            return
+
+        jumlah = float(input("Masukkan jumlah pengeluaran: "))
+        keterangan = input("Masukkan keterangan pengeluaran: ")
+        
+        tanggal_pengeluaran = datetime.date(tahun, bulan, tanggal)
+        pengeluaran.append([tanggal_pengeluaran, jumlah, kategori_pengeluaran_str, keterangan])
+        if kategori_pengeluaran_str in kategori_pengeluaran:
+            kategori_pengeluaran[kategori_pengeluaran_str] += jumlah
+        else:
+            kategori_pengeluaran[kategori_pengeluaran_str] = jumlah
+        
+        save_data()
+        print("Pengeluaran berhasil ditambahkan.\n")
+
+def tambah_pemasukan():
+    tahun = int(input("Masukkan tahun (YYYY): "))
+    bulan = int(input("Masukkan bulan (MM): "))
+    tanggal = int(input("Masukkan tanggal (DD): "))
+    jumlah = float(input("Masukkan jumlah pemasukan: "))
+    keterangan = input("Masukkan keterangan pemasukan: ")
+    
+    tanggal_pemasukan = datetime.date(tahun, bulan, tanggal)
+    pemasukan.append([tanggal_pemasukan, jumlah, keterangan])
+    if keterangan in kategori_pemasukan:
+        kategori_pemasukan[keterangan] += jumlah
+    else:
+        kategori_pemasukan[keterangan] = jumlah
+    
+    save_data()
+    print("Pemasukan berhasil ditambahkan.\n")
+
+# Fungsi untuk menampilkan riwayat pengeluaran
+def lihat_riwayat():
+    if not pengeluaran and not pemasukan:
+        print("Tidak ada pemasukan atau pengeluaran yang tercatat.\n")
+        return
+    
+    print("\nRiwayat Pengeluaran:")
+    print("-"*108)
+    cprint("| {:^12} | {:^18} | {:^15} | {:^50} |".format("Tanggal", "Jumlah Pengeluaran", "Kategori", "Keterangan"), "black", "on_red")
+    print("-"*108)
+    for entry in pengeluaran:
+        tanggal_str = entry[0].strftime('%Y-%m-%d')
+        cprint("| {:^12} | {:^18} | {:^15} | {:^50} |".format(tanggal_str, entry[1], entry[2], entry[3]), "black", "on_white")
+    print("-"*108)
+    
+    print("\nRiwayat Pemasukan:")
+    print("-"*90)
+    cprint("| {:^12} | {:^18} | {:^50} |".format("Tanggal", "Jumlah Pemasukan", "Keterangan"), "black", "on_cyan")
+    print("-"*90)
+    for entry in pemasukan:
+        tanggal_str = entry[0].strftime('%Y-%m-%d')
+        cprint("| {:^12} | {:^18} | {:^50} |".format(tanggal_str, entry[1], entry[2]), "black", "on_white")
+    print("-"*90)
+
+# Fungsi untuk menampilkan laporan keuangan bulanan
+def laporan_keuangan_bulanan():
+    try:
+        tahun = int(input("Masukkan tahun (YYYY) untuk laporan: "))
+        bulan = int(input("Masukkan bulan (MM) untuk laporan: "))
+        
+        total_pengeluaran = 0.0
+        total_pemasukan = 0.0
+        laporan_pengeluaran = []
+        laporan_pemasukan = []
+
+        for entry in pengeluaran:
+            if entry[0].year == tahun and entry[0].month == bulan:
+                total_pengeluaran += entry[1]
+                laporan_pengeluaran.append(entry)
+        
+        for entry in pemasukan:
+            if entry[0].year == tahun and entry[0].month == bulan:
+                total_pemasukan += entry[1]
+                laporan_pemasukan.append(entry)
+
+        if not laporan_pengeluaran and not laporan_pemasukan:
+            print(f"Tidak ada pemasukan atau pengeluaran pada {bulan}/{tahun}.\n")
+            return
+        
+        print(f"\nLaporan Keuangan untuk {bulan}/{tahun}:")
+
+        print("\nPengeluaran:")
+        for entry in laporan_pengeluaran:
+            print(f"Tanggal: {entry[0]}, Jumlah: {entry[1]}, Kategori: {entry[2]}, Keterangan: {entry[3]}")
+        
+        print("\nPemasukan:")
+        for entry in laporan_pemasukan:
+            print(f"Tanggal: {entry[0]}, Jumlah: {entry[1]}, Keterangan: {entry[2]}")
+
+        hasil_akhir = total_pemasukan - total_pengeluaran
+        print(f"\nTotal Pemasukan: {total_pemasukan}")
+        print(f"Total Pengeluaran: {total_pengeluaran}")
+        print(f"Hasil Akhir: {hasil_akhir}\n")
+
+        input("Tekan Enter untuk melihat diagram distribusi pengeluaran... ")
+
+        # Visualisasi pengeluaran
+        bulan_pengeluaran = {}
+        for entry in laporan_pengeluaran:
+            kategori = entry[2]
+            jumlah = entry[1]
+            if kategori in bulan_pengeluaran:
+                bulan_pengeluaran[kategori] += jumlah
+            else:
+                bulan_pengeluaran[kategori] = jumlah
+        
+        kategori_peng = list(bulan_pengeluaran.keys())
+        jumlah_peng = list(bulan_pengeluaran.values())
+        
+        plt.figure(figsize=(8, 6))
+        plt.pie(jumlah_peng, labels=kategori_peng, autopct='%1.1f%%', startangle=90)
+        plt.title('Distribusi Pengeluaran')
+        plt.axis('equal')  
+        plt.show()
+
+        input("Tekan Enter untuk melihat diagram distribusi pemasukan... ")
+
+        # Visualisasi pemasukan
+        bulan_pemasukan = {}
+        for entry in laporan_pemasukan:
+            keterangan = entry[2]
+            jumlah = entry[1]
+            if keterangan in bulan_pemasukan:
+                bulan_pemasukan[keterangan] += jumlah
+            else:
+                bulan_pemasukan[keterangan] = jumlah
+        
+        kategori_pem = list(bulan_pemasukan.keys())
+        jumlah_pem = list(bulan_pemasukan.values())
+        
+        plt.figure(figsize=(8, 6))
+        plt.pie(jumlah_pem, labels=kategori_pem, autopct='%1.1f%%', startangle=90)
+        plt.title('Distribusi Pemasukan')
+        plt.axis('equal')  
+        plt.show()
+
+        input("Tekan Enter untuk kembali ke menu utama... ")
+        
+    except ValueError:
+        print(emoji.emojize("Input tidak valid. Silakan coba lagi. :folded_hands: \n"))
+
+def laporan_keuangan_tahunan():
+    try:
+        tahun = int(input("Masukkan tahun (YYYY) untuk laporan: "))
+        
+        total_pengeluaran = 0.0
+        total_pemasukan = 0.0
+        laporan_pengeluaran = []
+        laporan_pemasukan = []
+
+        for entry in pengeluaran:
+            if entry[0].year == tahun:
+                total_pengeluaran += entry[1]
+                laporan_pengeluaran.append(entry)
+        
+        for entry in pemasukan:
+            if entry[0].year == tahun:
+                total_pemasukan += entry[1]
+                laporan_pemasukan.append(entry)
+
+        if not laporan_pengeluaran and not laporan_pemasukan:
+            print(f"Tidak ada pemasukan atau pengeluaran pada tahun {tahun}.\n")
+            return
+        
+        print(f"\nLaporan Keuangan untuk Tahun {tahun}:")
+        
+        if laporan_pengeluaran:
+            print("\nPengeluaran:")
+            for entry in laporan_pengeluaran:
+                print(f"Tanggal: {entry[0]}, Jumlah: {entry[1]}, Kategori: {entry[2]}, Keterangan: {entry[3]}")
+
+        if laporan_pemasukan:
+            print("\nPemasukan:")
+            for entry in laporan_pemasukan:
+                print(f"Tanggal: {entry[0]}, Jumlah: {entry[1]}, Keterangan: {entry[2]}")
+
+        hasil_akhir = total_pemasukan - total_pengeluaran
+        print(f"\nTotal Pemasukan: {total_pemasukan}")
+        print(f"Total Pengeluaran: {total_pengeluaran}")
+        print(f"Hasil Akhir: {hasil_akhir}\n")
+
+        input("Tekan Enter untuk melihat diagram distribusi pengeluaran... ")
+
+        # Visualisasi pengeluaran
+        tahun_pengeluaran = {}
+        for entry in laporan_pengeluaran:
+            kategori = entry[2]
+            jumlah = entry[1]
+            if kategori in tahun_pengeluaran:
+                tahun_pengeluaran[kategori] += jumlah
+            else:
+                tahun_pengeluaran[kategori] = jumlah
+        
+        kategori_peng = list(tahun_pengeluaran.keys())
+        jumlah_peng = list(tahun_pengeluaran.values())
+        
+        plt.figure(figsize=(8, 6))
+        plt.pie(jumlah_peng, labels=kategori_peng, autopct='%1.1f%%', startangle=90)
+        plt.title(f'Distribusi Pengeluaran Tahun {tahun}')
+        plt.axis('equal')  
+        plt.show()
+
+        input("Tekan Enter untuk melihat diagram distribusi pemasukan... ")
+
+    
+        tahun_pemasukan = {}
+        for entry in laporan_pemasukan:
+            keterangan = entry[2]
+            jumlah = entry[1]
+            if keterangan in tahun_pemasukan:
+                tahun_pemasukan[keterangan] += jumlah
+            else:
+                tahun_pemasukan[keterangan] = jumlah
+        
+        kategori_pem = list(tahun_pemasukan.keys())
+        jumlah_pem = list(tahun_pemasukan.values())
+        
+        plt.figure(figsize=(8, 6))
+        plt.pie(jumlah_pem, labels=kategori_pem, autopct='%1.1f%%', startangle=90)
+        plt.title(f'Distribusi Pemasukan Tahun {tahun}')
+        plt.axis('equal')  
+        plt.show()
+
+        input("Tekan Enter untuk kembali ke menu utama... ")
+        
+    except ValueError:
+        print(emoji.emojize("Input tidak valid. Silakan coba lagi. :folded_hands: \n"))
+
+def pilih_laporan():
+    while True:
+        print("\nPilih skala waktu laporan keuangan:")
+        print(emoji.emojize("1. Perbulan :spiral_calendar: "))
+        print(emoji.emojize("2. Pertahun :calendar: "))
+        print("3. Kembali")
+        laporan = input("Pilih skala waktu (1-3): ")
+        if laporan == "1":
+            laporan_keuangan_bulanan()
+        elif laporan == "2":
+            laporan_keuangan_tahunan()
+        elif laporan == "3":
+            break
+        else:
+            print(emoji.emojize("Skala waktu tidak valid. Silakan coba lagi. :folded_hands: \n"))
+
+# Fungsi untuk menampilkan menu
+def menu():
+    load_data()
+    while True:
+        print(emoji.emojize("Selamat Datang di Program Money Tracker, Silahkan Pilih Menu yang Anda Inginkan :open_hands:"))
+        print("Menu:")
+        print(emoji.emojize("1. Tambah Pengeluaran :money_with_wings:"))
+        print(emoji.emojize("2. Tambah Pemasukan :dollar_banknote:"))
+        print(emoji.emojize("3. Riwayat Pengeluaran dan Pemasukan :receipt:"))
+        print(emoji.emojize("4. Laporan Keuangan :chart_increasing: :chart_decreasing: :bar_chart:"))
+        print("5. Keluar")
+        
+        pilihan = input("Pilih menu (1-5): ")
+        
+        if pilihan == '1':
+            tambah_pengeluaran()
+        elif pilihan == '2':
+            tambah_pemasukan()
+        elif pilihan == '3':
+            lihat_riwayat()
+        elif pilihan == '4':
+            pilih_laporan()
+        elif pilihan == '5':
+            print(emoji.emojize("Terima kasih telah menggunakan Money Tracker. Sampai jumpa! :open_hands:"))
+            break
+        else:
+            print(emoji.emojize("Pilihan tidak valid. Silakan coba lagi. :folded_hands: \n"))
+
+# Menjalankan menu utama
+menu()
